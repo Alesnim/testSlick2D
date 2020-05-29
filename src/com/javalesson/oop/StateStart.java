@@ -22,6 +22,9 @@ public class StateStart extends BasicGameState {
         animation = new Animation(sprites, 100);
     }
 
+
+
+
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
             graphics.drawString("State 0" , 50, 100);
