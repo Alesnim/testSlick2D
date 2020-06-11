@@ -1,6 +1,7 @@
 package com.javalesson.oop;
 
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Rectangle;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -44,16 +45,24 @@ public class Main extends BasicGame {
     @Override
     public void update(GameContainer gameContainer, int delta) {
         var inp = gameContainer.getInput();
-        if (inp.isKeyPressed(Input.KEY_S)) {
+        if (inp.isKeyDown(Input.KEY_S)) {
             platform.move(gameContainer, delta, 1);
         }
-        if (inp.isKeyPressed(Input.KEY_W)) {
+        if (inp.isKeyDown(Input.KEY_W)) {
             platform.move(gameContainer, delta, -1);
         }
+
         if (!ball.isCollision(ball.getX(), ball.getY(), gameObjects)) {
             ball.move(gameContainer, (int) (delta * 0.4f));
         }
 
+        if (inp.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+            if (inp.getMouseX() > gameContainer.getWidth() - 40 && inp.getMouseX() < gameContainer.getWidth() - 10) {
+                if (inp.getMouseY() > 40 && inp.getMouseY() < 70) {
+                    System.exit(0);
+                }
+         }
+        }
 
     }
 
@@ -61,7 +70,7 @@ public class Main extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) {
 
         graphics.drawImage(back, 0, 0);
-        graphics.drawString("eeeeee", 40, 180);
+        graphics.draw(new Rectangle(gameContainer.getWidth() - 40, 40, 30, 30));
         ball.draw(graphics);
         platform.draw(graphics);
 
@@ -82,9 +91,15 @@ class Platform extends GameObject {
     }
 
     public void move(GameContainer gameContainer, int speed, int direction) {
-        if (y >= 0 && y <= gameContainer.getHeight()) {
+
+        if (y + (speed * direction) < 0) {
+            y = 0;
+        } else if (y + getHeight() + (speed * direction) >= gameContainer.getHeight()) {
+            y = gameContainer.getHeight() - getHeight();
+        } else {
             y += speed * direction;
         }
+
     }
 }
 

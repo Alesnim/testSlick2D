@@ -23,6 +23,11 @@ public class ExampleStateBasedGame extends StateBasedGame {
     public void initStatesList(GameContainer container) throws SlickException {
         this.addState(new StateStart());
         this.addState(new StateTwo());
+        this.addState(new GameOverState());
+
+        container.setTargetFrameRate(60);
+        container.setAlwaysRender(true);
+        container.setVSync(true);
     }
 
 
